@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bedding Studio — Premium Bedding</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="brand">Bedding Studio</div>
+    <nav class="nav">
+      <a href="index.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+      <div class="cart-badge" id="cartCount">0</div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Cozy. Elegant. Made for sleep.</h1>
+        <p>Discover premium bedsheets, comforters, coverlets and bedcovers — crafted for comfort and style.</p>
+        <div class="hero-cta">
+          <button class="btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Collection</button>
+        </div>
+      </div>
+      <div style="width:360px">
+        <div style="background:linear-gradient(180deg,#fff,rgba(255,255,255,0.95));padding:12px;border-radius:12px;box-shadow:var(--glass-shadow)">
+          <div style="font-weight:700">Free shipping over PKR 8,000</div>
+          <div class="small" style="margin-top:6px">30-day returns • Secure checkout</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid-two">
+      <section>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2>Featured Bedding</h2>
+          <div class="small">Premium fabrics • Fast delivery</div>
+        </div>
+
+        <div class="searchbar">
+          <input id="search" placeholder="Search bedsheet, comforter, coverlet..." />
+          <button class="btn" onclick="renderProducts(productsData)">Reset</button>
+        </div>
+
+        <div id="products" class="products"></div>
+      </section>
+
+      <aside class="side-card">
+        <h3 style="margin:0">Your Cart</h3>
+        <div class="cart-list" id="cart"></div>
+        <div class="small" style="margin-top:12px">Total: <strong id="total">0</strong> PKR</div>
+        <hr style="margin:12px 0">
+        <div>
+          <h4 style="margin:0">Checkout</h4>
+          <form id="checkout" class="checkout-form">
+            <label>Name</label><input name="name" required />
+            <label>Phone</label><input name="phone" required />
+            <label>Address</label><textarea name="address" rows="3" required></textarea>
+            <button type="submit" class="btn" style="width:100%;margin-top:10px">Place Order</button>
+          </form>
+          <div id="msg" style="margin-top:10px;color:green;font-weight:700"></div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">© 2025 Bedding Studio — All rights reserved.</footer>
+
+  <div id="toast" class="toast">Added to cart</div>
+
+  <!-- Modal for product quick view -->
+  <div id="modalBack" class="modal-backdrop">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modTitle">
+      <div id="modImgWrap"></div>
+      <div>
+        <h3 id="modTitle"></h3>
+        <div id="modDesc" class="small" style="margin-top:8px"></div>
+        <div style="margin-top:14px;font-weight:800;color:var(--accent-2)" id="modPrice"></div>
+        <div style="margin-top:18px">
+          <button id="modAdd" class="btn">Add to Cart</button>
+          <button onclick="closeModal()" style="margin-left:8px;padding:8px 12px;border-radius:10px;border:1px solid #e6f0ef;background:#fff">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Products */
+    const productsData = [
+      {id:1,title:'Premium Cotton Bedsheet Set — King',price:6500,img:'https://picsum.photos/seed/b1/900/600',desc:'4-piece cotton bedsheet set, breathable & durable. 100% long-staple cotton.'},
+      {id:2,title:'All-season Comforter',price:4200,img:'https://picsum.photos/seed/c1/900/600',desc:'Medium-weight comforter with hypoallergenic fill — warm yet light.'},
+      {id:3,title:'Quilted Coverlet',price:2800,img:'https://picsum.photos/seed/d1/900/600',desc:'Elegant quilted coverlet, reversible, decorative stitching.'},
+      {id:4,title:'Luxury Bedcover (Double)',price:8800,img:'https://picsum.photos/seed/e1/900/600',desc:'Hand-finished bedcover with inner lining — premium look.'},
+      {id:5,title:'Single Bedsheet Set',price:2200,img:'https://picsum.photos/seed/f1/900/600',desc:'Affordable single bedsheet set — soft finish.'},
+      {id:6,title:'Summer Lightweight Comforter',price:3500,img:'https://picsum.photos/seed/g1/900/600',desc:'Breathable summer comforter for warm climates.'}
+    ];
+
+    /* Cart state (shared across pages via localStorage key 'bedding_cart') */
+    let cart = JSON.parse(localStorage.getItem('bedding_cart')||'{}');
+
+    const productsEl = document.getElementById('products');
+    const cartEl = document.getElementById('cart');
+    const totalEl = document.getElementById('total');
+    const cartCountEl = document.getElementById('cartCount');
+    const toast = document.getElementById('toast');
+
+    function renderProducts(list){
+      productsEl.innerHTML = '';
+      list.forEach(p=>{
+        const el = document.createElement('div'); el.className='card';
+        el.innerHTML = `
+          <img src="${p.img}" alt="${p.title}" loading="lazy">
+          <h3>${p.title}</h3>
+          <div class="desc">${p.desc}</div>
+          <div class="meta">
+            <div class="price">${p.price} PKR</div>
+            <div style="display:flex;gap:8px">
+              <button class="btn" data-id="${p.id}" onclick="addToCart(${p.id})">Add</button>
+              <button style="background:#fff;border:1px solid #e6f0ef;padding:8px;border-radius:10px;cursor:pointer" onclick="openModal(${p.id})">Quick View</button>
+            </div>
+          </div>`;
+        productsEl.appendChild(el);
+      });
+    }
+
+    function saveCart(){
+      localStorage.setItem('bedding_cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function addToCart(id){
+      const p = productsData.find(x=>x.id===id); if(!p) return;
+      cart[id] = cart[id] ? {...cart[id], qty: cart[id].qty + 1} : {id:p.id,title:p.title,price:p.price,img:p.img,qty:1};
+      saveCart();
+      showToast('Added to cart');
+    }
+
+    function renderCart(){
+      cartEl.innerHTML = '';
+      const keys = Object.keys(cart);
+      if(keys.length === 0){ cartEl.innerHTML = '<div class="small">Your cart is empty</div>'; totalEl.innerText = '0'; cartCountEl.innerText = '0'; return; }
+      let sum = 0;
+      keys.forEach(k=>{
+        const it = cart[k]; sum += it.price * it.qty;
+        const row = document.createElement('div'); row.className='cart-item';
+        row.innerHTML = `
+          <img src="${it.img}" alt="${it.title}">
+          <div style="flex:1">
+            <div style="font-weight:700">${it.title}</div>
+            <div class="small">${it.price} x ${it.qty} = ${it.price*it.qty} PKR</div>
+          </div>
+          <div class="qty">
+            <button onclick="inc(${it.id})">+</button>
+            <div style="padding:0 8px">${it.qty}</div>
+            <button onclick="dec(${it.id})">-</button>
+          </div>`;
+        cartEl.appendChild(row);
+      });
+      totalEl.innerText = sum;
+      cartCountEl.innerText = keys.reduce((a,k)=>a+cart[k].qty,0);
+    }
+
+    function inc(id){ cart[id].qty++; saveCart(); }
+    function dec(id){ cart[id].qty--; if(cart[id].qty<=0) delete cart[id]; saveCart(); }
+
+    function showToast(msg){
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),1400);
+    }
+
+    // search
+    document.getElementById('search').addEventListener('input', e=>{
+      const q = e.target.value.trim().toLowerCase();
+      renderProducts(productsData.filter(p=>p.title.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)));
+    });
+
+    // checkout
+    document.getElementById('checkout').addEventListener('submit', e=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      const order = {customer:data, items:Object.values(cart), total: totalEl.innerText, date: new Date().toISOString()};
+      console.log('Order:', order);
+      localStorage.removeItem('bedding_cart'); cart = {}; saveCart();
+      document.getElementById('msg').innerText = 'Thank you — your order is received.';
+      e.target.reset();
+    });
+
+    // product modal
+    const modalBack = document.getElementById('modalBack');
+    function openModal(id){
+      const p = productsData.find(x=>x.id===id); if(!p) return;
+      document.getElementById('modImgWrap').innerHTML = `<img src="${p.img}" alt="${p.title}">`;
+      document.getElementById('modTitle').innerText = p.title;
+      document.getElementById('modDesc').innerText = p.desc;
+      document.getElementById('modPrice').innerText = p.price + ' PKR';
+      document.getElementById('modAdd').onclick = ()=>{ addToCart(p.id); closeModal(); };
+      modalBack.classList.add('show');
+    }
+    function closeModal(){ modalBack.classList.remove('show'); }
+
+    // initialize
+    renderProducts(productsData);
+    renderCart();
+  </script>
+</body>
+</html>

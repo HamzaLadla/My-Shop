@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gallery — Bedding Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="brand">Bedding Studio</div>
+    <nav class="nav">
+      <a href="index.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+      <div class="cart-badge" id="cartCount">0</div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Gallery</h2>
+    <p class="small">A selection of product imagery and lifestyle shots.</p>
+    <div class="gallery" style="margin-top:12px">
+      <img src="https://picsum.photos/seed/bedg1/1200/800" alt="">
+      <img src="https://picsum.photos/seed/bedg2/1200/800" alt="">
+      <img src="https://picsum.photos/seed/bedg3/1200/800" alt="">
+      <img src="https://picsum.photos/seed/bedg4/1200/800" alt="">
+      <img src="https://picsum.photos/seed/bedg5/1200/800" alt="">
+      <img src="https://picsum.photos/seed/bedg6/1200/800" alt="">
+    </div>
+  </main>
+
+  <footer class="footer">© 2025 Bedding Studio — All rights reserved.</footer>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem('bedding_cart')||'{}');
+    document.getElementById('cartCount').innerText = Object.keys(cart).reduce((a,k)=>a+cart[k].qty,0) || 0;
+  </script>
+</body>
+</html>

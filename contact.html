@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — Bedding Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="brand">Bedding Studio</div>
+    <nav class="nav">
+      <a href="index.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+      <div class="cart-badge" id="cartCount">0</div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div style="display:grid;grid-template-columns:1fr 360px;gap:18px">
+      <section style="background:var(--card);padding:20px;border-radius:12px;box-shadow:var(--glass-shadow)">
+        <h2>Contact Us</h2>
+        <p class="small">Questions, custom orders or wholesale inquiries — send us a message and we’ll reply within 24 hours.</p>
+
+        <form id="contactForm">
+          <label>Name</label><input name="name" required>
+          <label>Email</label><input name="email" type="email" required>
+          <label>Message</label><textarea name="message" rows="5" required></textarea>
+          <button type="submit" class="btn" style="margin-top:8px">Send Message</button>
+          <p id="status" style="margin-top:10px;color:green;font-weight:700"></p>
+        </form>
+      </section>
+
+      <aside class="side-card">
+        <h3>Visit / Contact</h3>
+        <div class="small" style="margin-top:8px">
+          <strong>Phone:</strong> +92 300 1234567<br>
+          <strong>Email:</strong> info@beddingstudio.example<br>
+          <strong>Address:</strong> Karachi, Pakistan
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">© 2025 Bedding Studio — All rights reserved.</footer>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      document.getElementById('status').innerText = 'Thanks! Your message has been sent.';
+      e.target.reset();
+    });
+    const cart = JSON.parse(localStorage.getItem('bedding_cart')||'{}');
+    document.querySelectorAll('.cart-badge').forEach(el=>el.innerText = Object.keys(cart).reduce((a,k)=>a+cart[k].qty,0) || 0);
+  </script>
+</body>
+</html>

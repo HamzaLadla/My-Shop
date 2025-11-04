@@ -1,0 +1,72 @@
+:root{
+  --bg:#f4fbfb;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#0ea5a0; /* teal */
+  --accent-2:#067d78;
+  --glass: rgba(255,255,255,0.6);
+  --radius:14px;
+  --shadow: 0 8px 24px rgba(8,20,30,0.06);
+  --glass-shadow: 0 6px 18px rgba(8,20,30,0.06);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background:linear-gradient(180deg,#f9fffe 0%,var(--bg) 100%);color:#0f172a}
+a{color:inherit}
+.header{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#fff;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+.brand{font-weight:700;font-size:20px;letter-spacing:-0.2px}
+.nav{display:flex;gap:14px;align-items:center}
+.nav a{color:rgba(255,255,255,0.95);text-decoration:none;padding:8px 10px;border-radius:10px;font-weight:600}
+.nav a:hover{background:rgba(255,255,255,0.06)}
+.cart-badge{background:#fff;color:var(--accent);padding:6px 10px;border-radius:999px;font-weight:700}
+.container{max-width:1200px;margin:28px auto;padding:0 20px}
+.hero{
+  display:flex;gap:28px;align-items:center;padding:28px;background:linear-gradient(180deg,rgba(255,255,255,0.5),rgba(255,255,255,0.4));border-radius:18px;box-shadow:var(--glass-shadow);
+}
+.hero-left{flex:1}
+.hero h1{margin:0;font-size:34px;color:#05323a}
+.hero p{color:var(--muted);margin-top:8px}
+.hero-cta{margin-top:18px}
+.btn{
+  background:var(--accent);border:none;color:#fff;padding:10px 16px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(14,165,160,0.18)
+}
+.grid-two{display:grid;grid-template-columns:1fr 360px;gap:22px;margin-top:22px}
+@media (max-width:960px){.grid-two{grid-template-columns:1fr}.hero{flex-direction:column;align-items:flex-start}}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;margin-top:18px}
+.card{
+  background:linear-gradient(180deg,var(--card),rgba(255,255,255,0.9));
+  border-radius:16px;padding:14px;box-shadow:var(--shadow);overflow:hidden;transition:transform .25s ease, box-shadow .25s ease;
+}
+.card:hover{transform:translateY(-6px)}
+.card img{width:100%;height:180px;object-fit:cover;border-radius:10px}
+.card h3{margin:10px 0 6px 0;font-size:16px}
+.card .desc{color:var(--muted);font-size:13px}
+.card .meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.price{font-weight:800;color:var(--accent-2)}
+.small{font-size:13px;color:var(--muted)}
+.searchbar{display:flex;gap:8px;align-items:center;margin-top:10px}
+.searchbar input{flex:1;padding:10px;border-radius:12px;border:1px solid #e6f0ef;background:#fff}
+.side-card{background:linear-gradient(180deg,var(--card),#fff);padding:16px;border-radius:14px;box-shadow:var(--glass-shadow)}
+.cart-list{max-height:420px;overflow:auto;margin-top:12px}
+.cart-item{display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px}
+.cart-item img{width:64px;height:64px;object-fit:cover;border-radius:8px}
+.qty{display:flex;gap:6px;align-items:center}
+.qty button{background:#eef9f9;border:1px solid #dff2f1;padding:6px 8px;border-radius:8px;cursor:pointer}
+.checkout-form label{display:block;margin-top:10px;font-size:14px;color:var(--muted)}
+.checkout-form input, .checkout-form textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #e6f0ef;margin-top:6px}
+.footer{padding:18px;text-align:center;color:var(--muted);margin-top:28px}
+
+/* popup toast */
+.toast{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;padding:12px 18px;border-radius:999px;box-shadow:0 8px 28px rgba(8,20,30,0.12);opacity:0;pointer-events:none;transition:all .36s ease;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
+
+/* product modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.45);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all .18s ease}
+.modal-backdrop.show{opacity:1;pointer-events:auto}
+.modal{width:920px;max-width:94%;background:#fff;border-radius:14px;padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.modal img{width:100%;height:360px;object-fit:cover;border-radius:10px}
+@media (max-width:880px){.modal{grid-template-columns:1fr;}.modal img{height:260px}}

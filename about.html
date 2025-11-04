@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — Bedding Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="brand">Bedding Studio</div>
+    <nav class="nav">
+      <a href="index.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+      <div class="cart-badge" id="cartCount">0</div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section style="background:var(--card);padding:20px;border-radius:14px;box-shadow:var(--glass-shadow)">
+      <h2>About Bedding Studio</h2>
+      <p class="small">We design and source premium bedding — bedsheets, comforters, coverlets and bedcovers — focused on comfort, durability and timeless style. Founded with a love for quality textiles, we curate collections that feel luxurious but are affordable.</p>
+      <h3 style="margin-top:18px">Our Promise</h3>
+      <ul class="small">
+        <li>High-quality fabrics & craftsmanship</li>
+        <li>Fast nationwide shipping</li>
+        <li>Hassle-free 30-day returns</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">© 2025 Bedding Studio — All rights reserved.</footer>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem('bedding_cart')||'{}');
+    document.getElementById('cartCount').innerText = Object.keys(cart).reduce((a,k)=>a+cart[k].qty,0) || 0;
+  </script>
+</body>
+</html>
